@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div class="create_room_form">
+        <label for="room_name">房間名稱</label><br>
+        <input type="text" id="room_name"><br>
+        <label for="room_pwd">房間密碼</label><br>
+        <input type="text" id="room_pwd"><br>
+        <div class="confirm_btn" onclick="confirm_btn();"><i class="fa-solid fa-check"></i></div>
+        <div class="cancel_btn" onclick="cancel_btn();"><i class="fa-solid fa-xmark"></i></div>
+        <!-- <button class="confirm">確認</button>
+        <button class="cancel">取消</button> -->
+    </div>
+    <div class="room_block">
+        <div class="function_box">
+            <table>
+                <tr>
+                    <td><div class="title">房間列表</div></td>
+                    <td><div class="add_room_btn" onclick="add_room_btn();">新增房間</div></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="talk_block">
+        <div class="talk_record"></div>
+        <input type="text" id="input_box" name="input_box">
+        <button id="enter_btn" onclick="enter_btn();">輸入</button>
+    </div>
+    <script src="script/index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/b50638cf6f.js" crossorigin="anonymous"></script>
+</body>
+</html>

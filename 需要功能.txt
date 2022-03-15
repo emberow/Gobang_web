@@ -1,0 +1,17 @@
+login.html
+入口網站
+
+register.html
+註冊帳號
+
+index.html
+大廳(可以看到有哪些房間)
+創建房間功能
+聊天室
+個人對戰紀錄
+
+play.html
+遊玩功能
+聊天室
+
+

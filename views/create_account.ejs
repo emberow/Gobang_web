@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Page Title</title>
+
+<!-- 網頁編碼 -->
+<meta charset="UTF-8">
+
+<!-- 定義網頁描述 網頁關鍵字(被搜尋引擎偵測) 作者 -->
+<meta name="description" content="effective to save your money">
+<meta name="keywords" content="save money">
+<meta name="author" content="林健昌">
+
+<!-- 可以讓頁面寬度跟裝置寬度一樣 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 此為瀏覽器標齊旁邊的小圖案 -->
+<link rel="icon" type="image/x-icon" href='favicon.jpg'>
+
+<link rel="stylesheet" href="css/create_account.css">
+
+</head>
+
+
+
+<body style="background-color:rgb(255, 255, 255);">
+    <p class="title">線上五子棋</p>
+    <div class="form">
+        <div class="form_title">
+            <label>新增帳戶</label>
+        </div>
+
+        <div class="form_item">
+            <!-- fieldset將有相關的表格框在一起 legend為相關表格的標題 -->
+            <label for="name">帳號:</label><br>
+            <!-- autofocus使得載入此頁面時 該文字框會會被關注(閃爍提示) -->
+            <div class="text_box">
+                <input type="text" id="name" name="name" autofocus><br>
+            </div>
+        </div>
+
+        <div class="form_item">
+            <label for="pwd">密碼:</label><br>
+            <div class="text_box">
+                <input type="password" id="pwd" name="pwd"><br>
+            </div>
+        </div>
+
+        
+
+        <div class="form_item">
+            <label for="pwd_chk">確認密碼:</label><br>
+            <div class="text_box">
+                <input type="password" id="pwd_chk" name="pwd_chk"><br>
+            </div>
+        </div>
+        
+        <input class="register_button" type="submit" value="註冊" onclick=account_chk()>
+
+        <p id="txtHint"></p>
+        <input class="back_to_previous_page_button" type="submit" value="回上一頁" onclick=back_to_login()>
+    </div>
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="script/account.js"></script>
+
+
+</body>
+</html>
