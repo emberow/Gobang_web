@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "ejs-locals": "^1.0.2",
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.4.1",
     "ws": "^8.5.0"
   }

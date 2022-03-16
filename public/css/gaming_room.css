@@ -1,0 +1,73 @@
+.gaming_block{
+    color: black;
+    width: 40vw;
+    height: 40vw;
+    border-style: solid;
+    border-width: medium;
+    border-color: black;
+    border-radius: 1vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    margin-left: 20vw;
+    /* margin-right: 15vw; */
+    font-size: 2vw;
+    float: left;
+}
+
+.function_block{
+    color: black;
+    width: 20vw;
+    height: 40vw;
+    border-style: solid;
+    border-width: medium;
+    border-color: black;
+    border-radius: 1vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    /* margin-left: 25vw; */
+    margin-right: 15vw;
+    font-size: 2vw;
+    float: right;
+}
+
+p{
+    text-align: center;
+}
+
+.leave_button{
+    color: black;
+    width: 18vw;
+    border-style: solid;
+    border-width: medium;
+    border-color: black;
+    border-radius: 1vw;
+    margin-top: 5vh;
+    margin-left: 1vw;
+    text-align: center;
+}
+
+.leave_button:hover{
+    background-color: red;
+    color: white;
+}
+
+.talk_block{
+    margin-top: 2vh;
+    /* border-style: solid;
+    border-width: medium;
+    border-color: black; */
+    height: 35vh;
+    width: 19vw;
+    overflow-y: scroll;
+
+}
+
+#input_box{
+    height: 3vh;
+    width: 14vw;
+    margin-left: 1vw;
+    
+}
+
+
+

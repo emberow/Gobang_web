@@ -19,15 +19,23 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true}))
 app.use(bodyParser.json())
 
+var cookieParser = require('cookie-parser') // 解析cookie模組
+app.use(cookieParser()) //解析前端cookie
+
 var operate_account_data = require('./database/account_db');
-var operate_web_socket = require('./web_socket/web_scoket');
+var operate_hall_web_socket = require('./web_socket/hall_web_scoket');
+var authentication = require('./authentication/auth');
+const { cookie } = require('express/lib/response');
 
 var socket_list = [];
 
 //頁面顯示---------------------------------------------------------
 //登入介面
 app.get('/', function(req, res){
+  
+  
   res.render('login');
+  
 }); 
 
 //創建帳號
@@ -36,13 +44,27 @@ app.get('/create_account',function(req, res){
 });
 
 app.get('/index', function(req, res){
-  let name = "aaa";
-  // 防止重複連線
-  if(socket_list.indexOf(name) == -1){
-    operate_web_socket.connect_to_the_hall(name);
-    socket_list.push(name);
+  const token = req.cookies.jwt;
+  //沒有驗證就返回登入畫面
+  if(token){
+    // 解密token成user_data
+    let user_data = authentication.verify_jwt(token);
+    let name = user_data._id;
+    console.log(name)
+    // 防止重複連線
+    if(socket_list.indexOf(name) == -1){
+      operate_hall_web_socket.connect_to_the_hall(name);
+      socket_list.push(name);
+    }
+    res.render('index');
   }
-  res.render('index');
+  else{
+    res.render('login');
+  }
+});
+
+app.get('/gaming_room', function(req, res){
+  res.render('gaming_room');
 });
 
 //處理ajax-------------------------------------------------------
@@ -57,8 +79,15 @@ app.post('/login_chk', function(req, res){
   else{
     //資料庫處理
     operate_account_data.login_chk(account,password).then(
-      function(is_valid){
+      async function(is_valid){
         if(is_valid){
+          let token = new Promise(function(resolve, reject) {
+            resolve(authentication.generate_auth_token(account));
+          });
+          res.cookie("jwt", await token, {
+            maxAge: 86400000, // 只存在n秒，n秒後自動消失
+            httpOnly: true // 僅限後端存取，無法使用前端document.cookie取得
+          })
           res.send({'message':"登入成功"});
         }
         else{
@@ -100,6 +129,8 @@ app.post('/account', function(req, res){
     }
   }
 });
+
+
 
 
 // check running enviroment

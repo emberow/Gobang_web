@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/gaming_room.css">
+</head>
+
+<body>
+    <div class="gaming_block">
+        <!-- cancas不能用css設定寬高     -->
+        <canvas id="gaming_board" width="300" height="300"></canvas>
+    </div>
+    <div class="function_block">
+        <p>玩家一</p>
+        <p>vs</p>
+        <p>玩家二</p>
+        <div class="leave_button" onclick="leave_button();">離開房間</div>
+        <div class="talk_block">
+            
+        </div>
+        <input type="text" id="input_box" name="input_box">
+        <button id="enter_btn" onclick="enter_btn();">輸入</button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="script/gaming_room.js"></script>
+    <script src="https://kit.fontawesome.com/b50638cf6f.js" crossorigin="anonymous"></script>
+</body>
+</html>

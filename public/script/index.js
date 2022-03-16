@@ -1,4 +1,12 @@
 
+window.onload = function(){
+    // 使input_box可以只按enter傳送訊息
+    $("#input_box").keydown(function(event) {
+        if(event.keyCode == 13){
+            enter_btn();
+        };
+    });
+}
 
 const ws = new WebSocket('ws://localhost:3001');
 ws.addEventListener("open", () =>{
@@ -43,12 +51,21 @@ function add_room_btn(){
     //     opacity: 0.5
     // });
 }
-
+// 創建房間的取消按鈕
 function cancel_btn(){
     $(".create_room_form").css({
         "display":'none'
     });
 
+}
+// 創建房間的確認按鈕
+function confirm_btn(){
+    var form = document.createElement("form");
+    form.action = '/gaming_room';      
+    form.target = "_self";
+    form.method = "get";      
+    document.body.appendChild(form);
+    form.submit();  
 }
 
 
