@@ -27,7 +27,6 @@ var operate_hall_web_socket = require('./web_socket/hall_web_scoket');
 var authentication = require('./authentication/auth');
 const { cookie } = require('express/lib/response');
 
-var socket_list = [];
 
 //頁面顯示---------------------------------------------------------
 //登入介面
@@ -50,12 +49,8 @@ app.get('/index', function(req, res){
     // 解密token成user_data
     let user_data = authentication.verify_jwt(token);
     let name = user_data._id;
-    console.log(name)
-    // 防止重複連線
-    if(socket_list.indexOf(name) == -1){
-      operate_hall_web_socket.connect_to_the_hall(name);
-      socket_list.push(name);
-    }
+    // operate_hall_web_socket.connect_to_the_hall(name);
+
     res.render('index');
   }
   else{
@@ -79,14 +74,15 @@ app.post('/login_chk', function(req, res){
   else{
     //資料庫處理
     operate_account_data.login_chk(account,password).then(
-      async function(is_valid){
+      function(is_valid){
         if(is_valid){
-          let token = new Promise(function(resolve, reject) {
-            resolve(authentication.generate_auth_token(account));
-          });
-          res.cookie("jwt", await token, {
+          let token = authentication.generate_auth_token(account);
+
+          console.log(authentication.verify_jwt(token))
+          // res.setHeader("Authorization",token);
+          res.cookie("jwt", token, {
             maxAge: 86400000, // 只存在n秒，n秒後自動消失
-            httpOnly: true // 僅限後端存取，無法使用前端document.cookie取得
+            // httpOnly: true // 僅限後端存取，無法使用前端document.cookie取得
           })
           res.send({'message':"登入成功"});
         }

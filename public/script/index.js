@@ -1,4 +1,5 @@
 
+
 window.onload = function(){
     // 使input_box可以只按enter傳送訊息
     $("#input_box").keydown(function(event) {
@@ -11,12 +12,22 @@ window.onload = function(){
 const ws = new WebSocket('ws://localhost:3001');
 ws.addEventListener("open", () =>{
     console.log("connected!");
+    console.log(document.cookie)
+    let jwt_token = document.cookie.replace("jwt=", "");
+    ws.send(jwt_token + "/");
 })
 ws.addEventListener("message",(received_data) =>{
     let message = received_data.data;
-    console.log(message)
+    console.log(message);
     print_message_to_message_board(message);
 })
+
+
+function send_message_to_server(jwt_token, message){
+    console.log(message)
+    ws.send(jwt_token + "/" + message);
+}
+
 
 function print_message_to_message_board(message){
     // 用 createElement 增加一個 DOM 節點
@@ -30,31 +41,35 @@ function print_message_to_message_board(message){
     board.appendChild(str);
 }
 
-function send_message_to_server(message){
-    ws.send(message);
-}
+
 
 function enter_btn(){
     let message = $("#input_box").val();
+    let jwt_token = document.cookie.replace("jwt=", "");
     $("#input_box").val("");
     print_message_to_message_board(message);
-    send_message_to_server(message);
+    send_message_to_server(jwt_token, message);
 }
 
 function add_room_btn(){
     let form = $(".create_room_form");
     form.css({
-        "display":'block'
+        "display":'block',
+        "background-color" : "white",
+        "z-index": 2
     });
-    //這裡有問題
-    //  $("*:not(.create_room_form)").css({
-    //     opacity: 0.5
-    // });
+    // 這裡有問題
+     $("body > div:not(.create_room_form)").css({
+        opacity: 0.5
+    });
 }
 // 創建房間的取消按鈕
 function cancel_btn(){
     $(".create_room_form").css({
         "display":'none'
+    });
+    $("body > div:not(.create_room_form)").css({
+        opacity: 1
     });
 
 }

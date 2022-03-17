@@ -66,8 +66,16 @@ p{
     height: 3vh;
     width: 14vw;
     margin-left: 1vw;
-    
 }
+
+.col{
+    height: 30px;
+    width: 30px;
+    border-style: solid;
+    border-width: medium;
+    border-color: black;
+}
+
 
 
 

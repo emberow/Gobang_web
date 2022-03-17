@@ -1,5 +1,11 @@
 
+
+.create_room_form{
+    background-color: white;
+    z-index: auto;
+}
 .room_block{
+    
     color: black;
     width: 50vw;
     height: 50vh;

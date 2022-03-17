@@ -4,7 +4,7 @@ const SECRET = 'thisismynewproject'
 // 建立 Token
 
 exports.generate_auth_token = function(account){
-    const token = jwt.sign({ _id: "andy" }, SECRET, { expiresIn: '1 day' })
+    const token = jwt.sign({ _id: account }, SECRET, { expiresIn: '1 day' })
     return token;
 }
 
