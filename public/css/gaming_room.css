@@ -53,13 +53,19 @@ p{
 
 .talk_block{
     margin-top: 2vh;
-    /* border-style: solid;
-    border-width: medium;
-    border-color: black; */
     height: 35vh;
     width: 19vw;
     overflow-y: scroll;
+    
 
+}
+
+.text_record{
+    font-size: 1.5vw;
+    text-align: left;
+    margin-left: 2vw;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 #input_box{

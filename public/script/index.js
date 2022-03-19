@@ -1,4 +1,4 @@
-
+const jwt_token = document.cookie.replace("jwt=", "");
 
 window.onload = function(){
     // 使input_box可以只按enter傳送訊息
@@ -9,18 +9,48 @@ window.onload = function(){
     });
 }
 
+//判斷是否server准許前往gameing room
+var go_flag = false;
+
 const ws = new WebSocket('ws://localhost:3001');
 ws.addEventListener("open", () =>{
     console.log("connected!");
     console.log(document.cookie)
-    let jwt_token = document.cookie.replace("jwt=", "");
     ws.send(jwt_token + "/");
 })
 ws.addEventListener("message",(received_data) =>{
     let message = received_data.data;
-    console.log(message);
-    print_message_to_message_board(message);
+    if(message == "go_to_gaming_room_acknowledge"){
+        go_to_the_gaming_room();
+    }
+    else if(message == "create_room_fail"){
+        alert("新增房間失敗");
+    }
+    else if(message.split("/")[0] == "create" || message.split("/")[0] == "delete"){
+        // server回傳房間改變的指令
+        parse_action(message);
+    }
+    else{
+        print_message_to_message_board(message);
+    }
+    
 })
+
+function parse_action(message) {
+    message = message.split("/");
+    let action = message[0];
+    let room_name = message[1];
+    let num_of_people = message[2];
+    if(action == "create"){
+        add_room_info(room_name, num_of_people);
+    }
+    else if(action == "delete"){
+        delete_room_info(room_name, num_of_people);
+    }
+}
+
+
+
 
 
 function send_message_to_server(jwt_token, message){
@@ -28,10 +58,24 @@ function send_message_to_server(jwt_token, message){
     ws.send(jwt_token + "/" + message);
 }
 
+function add_room_info(room_name, num_of_people){
+    let tr = document.createElement('tr');
+    let td1 = document.createElement('td');
+    let td2 = document.createElement('td');
+    td1.textContent = room_name;
+    td2.textContent = String(num_of_people) + " / 2";
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.setAttribute('onclick','enter_room(room_name);');
+    let board = document.querySelector('.room_records');
+    board.appendChild(tr);
+}
+
+
 
 function print_message_to_message_board(message){
     // 用 createElement 增加一個 DOM 節點
-    var str = document.createElement('p');
+    let str = document.createElement('p');
     // 先用 JS 寫好要增加的內容
     str.textContent = message;
     // 動態掛一個 class 屬性
@@ -45,7 +89,6 @@ function print_message_to_message_board(message){
 
 function enter_btn(){
     let message = $("#input_box").val();
-    let jwt_token = document.cookie.replace("jwt=", "");
     $("#input_box").val("");
     print_message_to_message_board(message);
     send_message_to_server(jwt_token, message);
@@ -75,6 +118,20 @@ function cancel_btn(){
 }
 // 創建房間的確認按鈕
 function confirm_btn(){
+    let room_name = $('#room_name').val();
+    let password = $("#room_pwd").val();
+    request_create_room(room_name, password);
+}
+
+function request_create_room(room_name, password) {
+    ws.send(jwt_token + "//" + room_name + "/" + password);
+}
+
+function enter_room(room_name){
+    ws.send(jwt_token + "/enter_room/" + room_name + "/" + password);
+}
+
+function go_to_the_gaming_room(){
     var form = document.createElement("form");
     form.action = '/gaming_room';      
     form.target = "_self";
@@ -82,7 +139,5 @@ function confirm_btn(){
     document.body.appendChild(form);
     form.submit();  
 }
-
-
 
 

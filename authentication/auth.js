@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const SECRET = 'thisismynewproject'
 // 建立 Token
 
-exports.generate_auth_token = function(account){
-    const token = jwt.sign({ _id: account }, SECRET, { expiresIn: '1 day' })
+exports.generate_auth_token = function(account, room_id){
+    const token = jwt.sign({ _id: account, room_id: room_id}, SECRET, { expiresIn: '1 day' })
     return token;
 }
 

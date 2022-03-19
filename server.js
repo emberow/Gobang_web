@@ -3,6 +3,7 @@ const engine = require('ejs-locals');
 
 var app = express();
 
+
 // 提供來源檔案的目錄，script/css的來源檔案路徑改到這裡
 app.use(express.static("public"));
 //設定css的來源資料夾
@@ -23,9 +24,11 @@ var cookieParser = require('cookie-parser') // 解析cookie模組
 app.use(cookieParser()) //解析前端cookie
 
 var operate_account_data = require('./database/account_db');
+var operate_gaming_room_db = require('./database/gaming_room_db')
 var operate_hall_web_socket = require('./web_socket/hall_web_scoket');
+var operate_game_room_socket = require('./web_socket/game_web_socket');
 var authentication = require('./authentication/auth');
-const { cookie } = require('express/lib/response');
+
 
 
 //頁面顯示---------------------------------------------------------
@@ -59,14 +62,29 @@ app.get('/index', function(req, res){
 });
 
 app.get('/gaming_room', function(req, res){
-  res.render('gaming_room');
+  // 判斷玩家在哪個房間
+  let player_state = operate_hall_web_socket.player_state;
+  let token = req.cookies.jwt;
+  let name = authentication.verify_jwt(token)._id;
+  operate_gaming_room_db.search_player_in_which_room(name).then(
+    function(room_name){
+      token = authentication.generate_auth_token(name, room_name);
+      res.cookie("jwt", token, {
+        maxAge: 86400000, // 只存在n秒，n秒後自動消失
+        // httpOnly: true // 僅限後端存取，無法使用前端document.cookie取得
+      })
+      res.render('gaming_room');
+    },
+    function(err){throw err;}
+  )
+  // 重新製作新的token
 });
 
 //處理ajax-------------------------------------------------------
 //玩家登入，查詢搜尋資料庫中帳密一樣的人
 app.post('/login_chk', function(req, res){
-  var account = req.body.name;
-  var password = req.body.password;
+  let account = req.body.name;
+  let password = req.body.password;
   const rules = /[^a-zA-X0-9_]{1}/;
   if(rules.test(account) || rules.test(password)){
     res.send({'message':"含有特殊字元"});
@@ -97,9 +115,9 @@ app.post('/login_chk', function(req, res){
 
 //處理新增帳號
 app.post('/account', function(req, res){
-  var account = req.body.name;
-  var password	 = req.body.pwd;
-  var password_check = req.body.pwd_chk;
+  let account = req.body.name;
+  let password	 = req.body.pwd;
+  let password_check = req.body.pwd_chk;
   const rules = /[^a-zA-X0-9_]{1}/;
   if(rules.test(account) || rules.test(password) || rules.test(password_check)){
     res.send({'message':"含有特殊字元"});

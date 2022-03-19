@@ -1,3 +1,16 @@
+const jwt_token = document.cookie.replace("jwt=", "");
+const ws = new WebSocket('ws://localhost:3002');
+ws.addEventListener("open", () =>{
+    console.log("connected!");
+    console.log(document.cookie)
+    ws.send(jwt_token + "/");
+});
+ws.addEventListener("message",(received_data) =>{
+    let message = received_data.data;
+    console.log(message);
+    print_message_to_message_board(message);
+});
+
 function leave_button(){
     var form = document.createElement("form");
     form.action = '/index';      
@@ -36,4 +49,34 @@ draw_gaming_board()
 
 function send_next_step(i,j){
     console.log(i,j)
+}
+
+function print_message_to_message_board(message){
+    var str = document.createElement('p');
+    str.textContent = message;
+    str.setAttribute('class','text_record');
+    let board = document.querySelector('.talk_block');
+    board.appendChild(str);
+}
+
+window.onload = function(){
+    // 使input_box可以只按enter傳送訊息
+    $("#input_box").keydown(function(event) {
+        if(event.keyCode == 13){
+            enter_btn();
+        };
+    });
+}
+
+function enter_btn(){
+    let message = $("#input_box").val();
+    $("#input_box").val("");
+    print_message_to_message_board(message);
+    send_message_to_server(jwt_token, message, "");
+}
+
+function send_message_to_server(jwt_token, message, next_step){
+    console.log(message);
+    console.log(next_step);
+    ws.send(jwt_token + "/" + message + "/" + next_step);
 }

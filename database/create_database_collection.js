@@ -11,5 +11,15 @@ MongoClient.connect(url, function(err, db) {
       console.log("Collection created!");
       db.close();
     });
+    dbo.createCollection("player", function(err, res) {
+      if (err) throw err;
+      console.log("Collection created!");
+      db.close();
+    });
+    dbo.createCollection("gaming_room", function(err, res) {
+      if (err) throw err;
+      console.log("Collection created!");
+      db.close();
+    });
   });
 

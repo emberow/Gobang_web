@@ -4,8 +4,8 @@
     background-color: white;
     z-index: auto;
 }
+
 .room_block{
-    
     color: black;
     width: 50vw;
     height: 50vh;
@@ -18,6 +18,11 @@
     margin-left: 25vw;
     margin-right: 25vw;
     font-size: 2vw;
+}
+
+.room_records td{
+    width: 40vw;
+    text-align: center;
 }
 
 .talk_block{
