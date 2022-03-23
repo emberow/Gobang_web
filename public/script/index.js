@@ -49,15 +49,6 @@ function parse_action(message) {
     }
 }
 
-
-
-
-
-function send_message_to_server(jwt_token, message){
-    console.log(message)
-    ws.send(jwt_token + "/" + message);
-}
-
 function add_room_info(room_name, num_of_people){
     let tr = document.createElement('tr');
     let td1 = document.createElement('td');
@@ -66,10 +57,29 @@ function add_room_info(room_name, num_of_people){
     td2.textContent = String(num_of_people) + " / 2";
     tr.appendChild(td1);
     tr.appendChild(td2);
-    tr.setAttribute('onclick','enter_room(room_name);');
+    tr.setAttribute('id',room_name);
+    let action = 'show_enter_room_form("' + room_name + '");'
+    tr.setAttribute('onclick', action);
     let board = document.querySelector('.room_records');
     board.appendChild(tr);
 }
+
+function delete_room_info(room_name){
+    let room_records = document.querySelector('.room_records');
+    let room = document.getElementById(room_name);
+    if(room){
+        room_records.removeChild(room);
+    }
+}
+
+
+
+function send_message_to_server(jwt_token, message){
+    console.log(message)
+    ws.send(jwt_token + "/" + message);
+}
+
+
 
 
 
@@ -101,17 +111,33 @@ function add_room_btn(){
         "background-color" : "white",
         "z-index": 2
     });
-    // 這裡有問題
      $("body > div:not(.create_room_form)").css({
         opacity: 0.5
     });
 }
+
+function show_enter_room_form(room_name){
+    $('#enter_room_name').attr('value', room_name);
+    let form = $(".enter_room_form");
+    form.css({
+        "display":'block',
+        "background-color" : "white",
+        "z-index": 2
+    });
+     $("body > div:not(.enter_room_form)").css({
+        opacity: 0.5
+    });
+}
+
 // 創建房間的取消按鈕
 function cancel_btn(){
     $(".create_room_form").css({
         "display":'none'
     });
-    $("body > div:not(.create_room_form)").css({
+    $(".enter_room_form").css({
+        "display":'none'
+    });
+    $("body > div:not(.create_room_form):not(.enter_room_form)").css({
         opacity: 1
     });
 
@@ -123,13 +149,22 @@ function confirm_btn(){
     request_create_room(room_name, password);
 }
 
+// 進入房間表單的確認按鈕
+function enter_room_confirm_btn(){
+    let room_name = $('#enter_room_name').val();
+    let password = $("#enter_room_pwd").val();
+    request_enter_room(room_name, password);
+}
+
 function request_create_room(room_name, password) {
     ws.send(jwt_token + "//" + room_name + "/" + password);
 }
 
-function enter_room(room_name){
+function request_enter_room(room_name, password) {  
     ws.send(jwt_token + "/enter_room/" + room_name + "/" + password);
 }
+
+
 
 function go_to_the_gaming_room(){
     var form = document.createElement("form");

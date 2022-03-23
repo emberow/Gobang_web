@@ -1,10 +1,5 @@
 
 
-.create_room_form{
-    background-color: white;
-    z-index: auto;
-}
-
 .room_block{
     color: black;
     width: 50vw;
@@ -99,6 +94,8 @@
 }
 
 .create_room_form{
+    background-color: white;
+    z-index: auto;
     display: none;
     height: 30vh;
     position: fixed;
@@ -106,13 +103,48 @@
     right: 40vw;
     left: 40vw;
     top : 30vh;
-
+    padding: 2vh;
     border-right: medium;
     border-style: solid;
     border-color: black;
     word-wrap: break-word;
     border-radius: 1vw;
 /* background-color: black; */
+}
+
+.create_room_form input{
+    height: 2.5vh;
+    width: 17vw;
+    margin-top: 1vh;
+    margin-bottom: 3vh;
+    margin-left: 1vw;
+}
+
+.enter_room_form{
+    background-color: white;
+    z-index: auto;
+    display: none;
+    height: 30vh;
+    position: fixed;
+    width: 20vw;
+    right: 40vw;
+    left: 40vw;
+    top : 30vh;
+    padding: 2vh;
+    border-right: medium;
+    border-style: solid;
+    border-color: black;
+    word-wrap: break-word;
+    border-radius: 1vw;
+/* background-color: black; */
+}
+
+.enter_room_form input{
+    height: 2.5vh;
+    width: 17vw;
+    margin-top: 1vh;
+    margin-bottom: 3vh;
+    margin-left: 1vw;
 }
 
 label{
@@ -122,16 +154,8 @@ label{
     margin-left: 1vw;
 }
 
-.create_room_form{
-    padding: 2vh;
-}
-.create_room_form input{
-    height: 2.5vh;
-    width: 17vw;
-    margin-top: 1vh;
-    margin-bottom: 3vh;
-    margin-left: 1vw;
-}
+
+
 
 .confirm_btn{
     float: left;

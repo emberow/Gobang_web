@@ -82,6 +82,21 @@ p{
     border-color: black;
 }
 
+.ready_button{
+    display: block;
+    border: solid 1px black;
+    width: 30%;
+    margin-left: 35%;
+    margin-right: 35%;
+    height: 8%;
+    margin-top: 45%;
+    border-radius: 1vw;
+}
+
+.ready_button:hover{
+    color: white;
+    background-color: black;
+}
 
 
 
