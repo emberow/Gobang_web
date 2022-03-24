@@ -29,11 +29,11 @@ function init_game(){
     ready_button.setAttribute('onclick','ready_button();');
     let board = document.querySelector('.gaming_block');
     board.appendChild(ready_button);
-    
 }
 
 
 function draw_gaming_board(){
+    document.querySelector('.gaming_block').style.border = "solid 0px black";
     // 使邊框消失
     $('.gaming_block').css({
         "border-style":"none"
@@ -50,7 +50,8 @@ function draw_gaming_board(){
         row.style.display = "flex";
         for(let j = 0; j < 19; j++){
             let col = document.createElement('div');
-            col.setAttribute('class','col');
+            let class_name = i + "_" + j;
+            col.setAttribute('class','col ' + class_name);
             col.setAttribute('onclick',`send_next_step(${i},${j});`);
             col.style.border = "1px solid black"
             row.appendChild(col);
@@ -61,9 +62,9 @@ function draw_gaming_board(){
 
 function ready_button(){
     send_message_to_server("ready", "");
-    document.querySelector('.gaming_block').style.border = "solid 0px black";
-    document.querySelector('.ready_button').style.display = "none"
-    draw_gaming_board();
+    let ready_button = document.querySelector('.ready_button');
+    let gaming_block = document.querySelector('.gaming_block');
+    gaming_block.removeChild(ready_button);
 }
 
 function leave_button(){
@@ -81,16 +82,25 @@ function send_next_step(i,j){
     let message = jwt_token + "//" + i + "," + j;
     ws.send(message);
 }
-
 let player1;
 let player2;
 function print_message_to_message_board(message){
-    message = message;
-    var str = document.createElement('p');
-    str.textContent = message;
-    str.setAttribute('class','text_record');
-    let board = document.querySelector('.talk_block');
-    board.appendChild(str);
+    if(message != "reset_game"){
+        message = message;
+        var str = document.createElement('p');
+        str.textContent = message;
+        str.setAttribute('class','text_record');
+        let board = document.querySelector('.talk_block');
+        board.appendChild(str);
+    }
+    else{
+        let board = document.querySelector('.gaming_block');
+        let row = board.querySelectorAll(".row");
+        for(item of row){
+            board.removeChild(item);
+        }
+        init_game();
+    }
 }
 
 
@@ -108,7 +118,6 @@ function send_message_to_server(message, next_step){
 
 function parse_message(received_data) {
     let message = received_data.data;
-    
     message = message.split("/");
     if(message[1] != player1 || message[2] != player2){
         player1 = message[1];
@@ -116,5 +125,41 @@ function parse_message(received_data) {
         document.getElementById("player1").innerHTML = player1;
         document.getElementById("player2").innerHTML = player2;
     }
+    let board_state = message[3];
+    temp_board = "";
+    for(let i = 0; i < 361; i++){
+        temp_board += "0";
+    }
+    if(board_state == temp_board){
+        draw_gaming_board();
+    }
+    console.log(message);
+    change_board_state(board_state);
     return message[0];
+}
+
+function change_board_state(board_state) {
+    if(board_state){
+        for(let i = 0; i < 19; i++){
+            for(let j = 0; j < 19; j++){
+                let chess_value = board_state[i * 19 + j];
+                let chess_class_name = i + "_" + j;
+                if(chess_value == 1){
+                    $('.'+chess_class_name).css({
+                        "background-color": "black"
+                    });
+                }
+                else if(chess_value == 2){
+                    $('.'+chess_class_name).css({
+                        "background-color": "white"
+                    });
+                }
+                else if(chess_value == 0){
+                    $('.'+chess_class_name).css({
+                        "background-color": "burlywood"
+                    });
+                }
+            }
+        }
+    }
 }
