@@ -1,7 +1,7 @@
 .gaming_block{
     color: black;
-    width: 40vw;
-    height: 40vw;
+    width: 36vw;
+    height: 36vw;
     border-style: solid;
     border-width: medium;
     border-color: black;
@@ -17,7 +17,7 @@
 .function_block{
     color: black;
     width: 20vw;
-    height: 40vw;
+    height: 36vw;
     border-style: solid;
     border-width: medium;
     border-color: black;
@@ -53,11 +53,9 @@ p{
 
 .talk_block{
     margin-top: 2vh;
-    height: 35vh;
+    height: 35%;
     width: 19vw;
     overflow-y: scroll;
-    
-
 }
 
 .text_record{
@@ -75,8 +73,8 @@ p{
 }
 
 .col{
-    height: 30px;
-    width: 30px;
+    height: 1.9vw;
+    width: 1.9vw;
     border-style: solid;
     border-width: medium;
     border-color: black;

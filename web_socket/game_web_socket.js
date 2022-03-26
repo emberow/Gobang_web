@@ -142,18 +142,13 @@ function broadcast(room_name, name, message){
 }
 
 
-// 處理遊戲的事情
-function game(room_name, name, next_step){
-  // game_state[room_name]["board"]
-}
-
 function ready(room_name, name){
   game_state[room_name]["num_of_ready"] += 1;
-  if(!game_state[room_name]['player1']){
-    game_state[room_name]['player1'] = ws;
+  if(!game_state[room_name]['player1'] && name != game_state[room_name]['player2']){
+    game_state[room_name]['player1'] = name;
   }
-  else if(!game_state[room_name]['player2']){
-    game_state[room_name]['player2'] = ws;
+  else if(!game_state[room_name]['player2'] && name != game_state[room_name]['player1']){
+    game_state[room_name]['player2'] = name;
   }
   
   if(game_state[room_name]["num_of_ready"] == 2){
@@ -166,8 +161,9 @@ function ready(room_name, name){
     if(game_state[room_name]["num_of_ready"] == 2){
       console.log(room_name,"遊戲開始");
       inform_player_board_info(room_name);
-      console.log(game_state);
+      
     }
+    console.log(game_state);
   }
 }
 
@@ -204,9 +200,6 @@ function next_move(room_name, name, next_step){
       inform_player_board_info(room_name);
       if(is_end){
         console.log("遊戲結束");
-
-        
-        
         // 表示已經結束
         game_state[room_name]["num_of_ready"] = 0;
 
