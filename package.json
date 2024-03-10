@@ -6,5 +6,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.4.1",
     "ws": "^8.5.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "initDB": "node ./database/create_database_collection.js"
   }
 }
