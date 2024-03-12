@@ -1,21 +1,37 @@
-線上下棋
-使用websocket搭配http進行連線
+# Gobang Web
 
-websocket與http都是使用jwt做驗證
+## introduction
+This is a gobang website where users can play against each other in real time
 
-使用MongoDB
+## features
 
-![hall](https://user-images.githubusercontent.com/80031876/159870773-e553c18a-d4ea-4b2b-a924-d7cd2d4bab60.png)
-大廳介面:可以實時看到其他房間
+- **sign in & sign up**
 
-![talk](https://user-images.githubusercontent.com/80031876/159870831-598c2b65-1206-4774-b134-c9592b8fc158.png)
-可以與其他玩家交流
+<img src="https://github.com/emberow/blog-image/blob/main/BlogImg/gobang%20login.png?raw=true"  style="width: 40vw;" > <br>
 
-![create_room](https://user-images.githubusercontent.com/80031876/159870870-a5cf6e9c-f445-4f6f-b037-3efadc8bc2a4.png)
-創建房間<br>
+- **communcated with other players**
 
-![enter_room](https://user-images.githubusercontent.com/80031876/159870896-ba13c3d8-e8ac-45d6-b035-129a6bd6abf1.png)
-進入房間
+<img src="https://github.com/emberow/blog-image/blob/main/BlogImg/gobang%20websocket%20comunication.gif?raw=true"  style="width: 40vw;" > <br>
 
-![game_screen](https://user-images.githubusercontent.com/80031876/159870944-0a7addc5-fff1-4357-8087-3528861c900c.png)
-遊戲畫面
+- **create room**
+
+<img src="https://github.com/emberow/blog-image/blob/main/BlogImg/gobang%20create%20room.gif?raw=true"  style="width: 40vw;" > <br>
+
+- **enjoy your play**
+
+<img src="https://github.com/emberow/blog-image/blob/main/BlogImg/gobang%20play.gif?raw=true"  style="width: 40vw;" > <br>
+
+# quick start 
+
+```
+# use node 21
+$ npm i
+$ npm run initDB // If it is the first time to execute
+$ npm run start
+```
+
+
+
+
+
+
