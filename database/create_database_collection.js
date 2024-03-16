@@ -1,6 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
 
-const url = "mongodb://mongodb:27017/";
+const DB_HOST = process.env.DB_HOST || 'localhost';
+const DB_PORT = process.env.DB_PORT || '27017';
+var url = `mongodb://${DB_HOST}:${DB_PORT}/`;
 
 exports.createCollections = async() => {
     const client = await MongoClient.connect(url, { useNewUrlParser: true });

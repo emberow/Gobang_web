@@ -1,7 +1,7 @@
-const { query } = require('express');
-
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://mongodb:27017/";
+const DB_HOST = process.env.DB_HOST || 'localhost';
+const DB_PORT = process.env.DB_PORT || '27017';
+var url = `mongodb://${DB_HOST}:${DB_PORT}/`;
 
 // 新增帳號之前 先搜尋是否有相同帳號，再將資料存入db
 exports.add_account = async function(acc, pwd){
