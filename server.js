@@ -3,33 +3,19 @@ const engine = require('ejs-locals');
 
 var app = express();
 
-
-// 提供來源檔案的目錄，script/css的來源檔案路徑改到這裡
-app.use(express.static("public"));
-//設定css的來源資料夾
-// app.set("css", express.static(__dirname + "public/css"));
-
-// ejs
-app.engine('ejs',engine);
-app.use(express.static(__dirname + '/static'));
-app.set('files','./files');
-app.set('view engine','ejs');
-
-// bodyParser 處理get post封包
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true}))
-app.use(bodyParser.json())
-
-var cookieParser = require('cookie-parser') // 解析cookie模組
-app.use(cookieParser()) //解析前端cookie
-
 var operate_account_data = require('./database/account_db');
 var operate_gaming_room_db = require('./database/gaming_room_db')
 var operate_hall_web_socket = require('./web_socket/hall_web_scoket');
 var operate_game_room_socket = require('./web_socket/game_web_socket');
 var authentication = require('./authentication/auth');
+var create_database_collection = require('./database/create_database_collection');
 
-
+// bodyParser 處理get post封包
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true}))
+app.use(bodyParser.json());
+const cookieParser = require('cookie-parser') // 解析cookie模組
+app.use(cookieParser()) //解析前端cookie
 
 //頁面顯示---------------------------------------------------------
 //登入介面
@@ -115,6 +101,7 @@ app.post('/login_chk', function(req, res){
 
 //處理新增帳號
 app.post('/account', function(req, res){
+  console.log(req)
   let account = req.body.name;
   let password	 = req.body.pwd;
   let password_check = req.body.pwd_chk;
@@ -145,15 +132,35 @@ app.post('/account', function(req, res){
 });
 
 
+const init = async() => {
+  while (true) {
+    try {
+      await create_database_collection.createCollections();
+      console.log('Database initialized.')
+      break;
+    } catch (error) {
+        console.log(error, 'Failed to connect to database. Retrying in 5 seconds...');
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+  }
+  // 提供來源檔案的目錄，script/css的來源檔案路徑改到這裡
+  app.use(express.static("public"));
+  //設定css的來源資料夾
+  // app.set("css", express.static(__dirname + "public/css"));
 
+  // ejs
+  app.engine('ejs',engine);
+  app.use(express.static(__dirname + '/static'));
+  app.set('files','./files');
+  app.set('view engine','ejs');
 
-// check running enviroment
-var port = process.env.PORT || 3000;
+  // check running enviroment
+  const port = process.env.PORT || 3000;
 
-// create
-app.listen(port);
+  // create
+  app.listen(port);
 
-// only print hint link for local enviroment
-if (port === 3000) {
-    console.log('RUN http://localhost:3000/');
+  console.log('Server is running on port ' + port)
 }
+
+init();

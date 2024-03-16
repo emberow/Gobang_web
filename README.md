@@ -26,11 +26,13 @@ This is a gobang website where users can play against each other in real time
 ```
 # use node 21
 $ npm i
-$ npm run initDB // If it is the first time to execute
 $ npm run start
 ```
 
-
+or use docker compose
+```
+$ docker-compose up
+```
 
 
 

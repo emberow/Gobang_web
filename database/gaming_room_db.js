@@ -1,7 +1,7 @@
 const res = require('express/lib/response');
 
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
+var url = "mongodb://mongodb:27017/";
 var operate_hall_web_socket = require('../web_socket/hall_web_scoket');
 
 //搜尋房間是否存在
