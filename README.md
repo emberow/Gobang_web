@@ -1,27 +1,27 @@
 # Gobang Web
 
-## introduction
+## Introduction
 This is a gobang website where users can play against each other in real time
 
-## features
+## Features
 
-- **sign in & sign up**
+- **Sign in & Sign up**
 
 <img src="https://github.com/emberow/blog-image/blob/main/BlogImg/gobang%20login.png?raw=true"  style="width: 40vw;" > <br>
 
-- **communcated with other players**
+- **Communcated with other players**
 
 <img src="https://github.com/emberow/blog-image/blob/main/BlogImg/gobang%20websocket%20comunication.gif?raw=true"  style="width: 40vw;" > <br>
 
-- **create room**
+- **Create room**
 
 <img src="https://github.com/emberow/blog-image/blob/main/BlogImg/gobang%20create%20room.gif?raw=true"  style="width: 40vw;" > <br>
 
-- **enjoy your play**
+- **Enjoy your game**
 
 <img src="https://github.com/emberow/blog-image/blob/main/BlogImg/gobang%20play.gif?raw=true"  style="width: 40vw;" > <br>
 
-# quick start 
+# Quick start 
 
 ```
 # use node 21
@@ -29,7 +29,7 @@ $ npm i
 $ npm run start
 ```
 
-or use docker compose
+Docker compose
 ```
 $ docker-compose up
 ```
